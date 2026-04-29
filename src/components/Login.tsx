@@ -55,7 +55,6 @@ export default function LoginPage(){
                 }, 1500)
             } else {
                 setMsg(data.message || "❌ Login failed. Please check your credentials.")
-                window.location.reload()
             }
         } catch (error) {
             setMsg("❌ An error occurred. Please try again.")
