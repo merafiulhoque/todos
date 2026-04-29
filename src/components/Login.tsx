@@ -54,6 +54,7 @@ export default function LoginPage(){
                
                 // Redirect to dashboard or todos page after 1.5 seconds
                 setTimeout(() => {
+                    console.log("Redirecting......")
                     router.push("/dashboard")
                     
                 }, 500)
