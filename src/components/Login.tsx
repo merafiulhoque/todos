@@ -46,8 +46,8 @@ export default function LoginPage(){
 
             const data = await res.json()
             
-            if(res.ok){
-                setMsg("✅ Login successful! Redirecting...")
+            if(data.success){
+                setMsg(data.message)
                
                 // Redirect to dashboard or todos page after 1.5 seconds
                 setTimeout(() => {
@@ -55,6 +55,7 @@ export default function LoginPage(){
                 }, 1500)
             } else {
                 setMsg(data.message || "❌ Login failed. Please check your credentials.")
+                window.location.reload()
             }
         } catch (error) {
             setMsg("❌ An error occurred. Please try again.")
