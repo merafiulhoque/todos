@@ -54,9 +54,7 @@ export default function LoginPage(){
                
                 // Redirect to dashboard or todos page after 1.5 seconds
                 setTimeout(() => {
-                    console.log("Redirecting......")
-                    router.push("/dashboard")
-                    
+                    router.push("/settings")                    
                 }, 500)
             } else {
                 setMsg(data.message || "❌ Login failed. Please check your credentials.")
