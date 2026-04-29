@@ -4,8 +4,9 @@ import { comparePassword } from "@/utils/bcrypt"
 import { createErrorResponse, createGeneralResponse, zodValidationErrorResponse } from "@/utils/createResponse"
 import { generateToken } from "@/utils/jwt"
 import { UserLoginSchema } from "@/validation"
+import { NextRequest } from "next/server"
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     const {email, password} = await req.json()
     const result = UserLoginSchema.safeParse({email, password})
 
