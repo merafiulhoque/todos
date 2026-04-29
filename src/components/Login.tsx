@@ -56,7 +56,7 @@ export default function LoginPage(){
                 setTimeout(() => {
                     router.refresh()                                        
                 }, 500)
-                router.push("/settings")
+                router.push("/dashboard")
             } else {
                 setMsg(data.message || "❌ Login failed. Please check your credentials.")
             }
