@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         const response = createGeneralResponse(true, "Login Successfull", 200)
 
         response.cookies.set("token", token, {
-            secure: false,
+            secure: true,
             httpOnly: true,
             sameSite: "strict",
             path: "/"
