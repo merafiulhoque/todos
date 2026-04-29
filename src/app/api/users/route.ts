@@ -8,7 +8,7 @@ export async function POST(req: Request){
     const result = UserSignUpData.safeParse({ name, email, password })
     
     if(!result.success){
-        return zodValidationErrorResponse("Validation error", 400, result.error.flatten().fieldErrors)
+        return zodValidationErrorResponse( 400, result.error.flatten().fieldErrors)
     }
 
     
