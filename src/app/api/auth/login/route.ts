@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
         }
         const token = generateToken(userData)
         const response = createGeneralResponse(true, "Login Successfull", 200)
-
+        
         response.cookies.set("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",

@@ -12,7 +12,9 @@ export default function LoginPage(){
     const [msg, setMsg] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
+
     const router = useRouter()
+
     function handleChange(event: React.ChangeEvent<HTMLInputElement>){
         setForm(prev => ({
             ...prev,
@@ -38,6 +40,7 @@ export default function LoginPage(){
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: "include",
                 body: JSON.stringify({
                     email: form.email.toLowerCase(),
                     password: form.password
@@ -51,8 +54,8 @@ export default function LoginPage(){
                
                 // Redirect to dashboard or todos page after 1.5 seconds
                 setTimeout(() => {
-                    // router.push("/dashboard")
-                    window.location.href = "/dashboard"
+                    router.push("/dashboard")
+                    
                 }, 500)
             } else {
                 setMsg(data.message || "❌ Login failed. Please check your credentials.")
