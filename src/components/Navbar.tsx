@@ -5,13 +5,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { use, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
+import { JWT_PAYLOAD } from "@/types"
 
-export default function Navbar() {
+export default function Navbar({userData}: {userData: JWT_PAYLOAD}) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
   const avatarRef = useRef<HTMLDivElement>(null)
-  const [name, setName] = useState(null)
-  const [email, setEmail] = useState(null)
+  const [user, setUser] = useState<JWT_PAYLOAD>(userData)
   const [msg, setMsg] = useState(null)
   const router = useRouter()
   // Close on outside click
@@ -28,28 +28,6 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  useEffect(() => {
-    getData()
-  }, [])
-
-  async function getData(){
-      const res = await fetch("/api/auth/me", {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json"
-        }
-      })
-      const data = await res.json()
-
-
-
-      if(!data.success){
-        router.push("/login")
-        return
-      }
-      setName(data.data.name)
-      setEmail(data.data.email)
-    }
 
   async function handleLogout() {
     const res = await fetch("/api/auth/logout", {
@@ -122,8 +100,8 @@ export default function Navbar() {
               />
             </div>
             <div>
-              <p className="text-white text-[13px] font-medium leading-tight">{name}</p>
-              <p className="text-white/35 text-[11px]">{email}</p>
+              <p className="text-white text-[13px] font-medium leading-tight">{user.name}</p>
+              <p className="text-white/35 text-[11px]">{user.email}</p>
             </div>
           </div>
 

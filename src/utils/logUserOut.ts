@@ -1,7 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server"
+import { createGeneralResponse } from "./createResponse"
 
-export function logUserOutAfterDeletingCookie(req: NextRequest){
-    const response = NextResponse.redirect(new URL("/login", req.url))
+export function logUserOutAfterDeletingCookie(){
+
+    const response = createGeneralResponse(false, "Unauthorized", 401)
+
     response.cookies.delete("token")
     return response
 }

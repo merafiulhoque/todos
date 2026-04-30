@@ -8,13 +8,13 @@ import _ from "lodash"
 export async function GET(req: NextRequest){
     try {
         const token = req.cookies.get("token")?.value
-        
+        console.log("Todo route: ", token)
         if(!token){
-            return logUserOutAfterDeletingCookie(req)
+            return logUserOutAfterDeletingCookie()
         }
         const decryptData = await decryptToken(token)
         if(!decryptData || !decryptData.email || !decryptData.id){
-            return logUserOutAfterDeletingCookie(req)
+            return logUserOutAfterDeletingCookie()
         }
         const {email} = decryptData
         const userByEmail = await prisma.user.findUnique({
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest){
             }
         })
         if(!userByEmail){
-            return logUserOutAfterDeletingCookie(req)
+            return logUserOutAfterDeletingCookie()
         }
         return createGeneralResponse(true, "Posts fetched successfully", 200, userByEmail.todos)
     } catch (error) {
@@ -42,9 +42,9 @@ export async function POST(req: NextRequest){
             return createGeneralResponse(false, "Invalid input", 403)
         }
         const token = req.cookies.get("token")?.value
-        if(!token) return logUserOutAfterDeletingCookie(req)
+        if(!token) return logUserOutAfterDeletingCookie()
         const decryptData = await decryptToken(token)
-        if(!decryptData || !decryptData.email || !decryptData.id) return logUserOutAfterDeletingCookie(req)
+        if(!decryptData || !decryptData.email || !decryptData.id) return logUserOutAfterDeletingCookie()
         
         const userById = await prisma.user.findUnique({
             where: {id: decryptData.id},
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest){
         })
 
         if(!userById) {
-            return logUserOutAfterDeletingCookie(req)
+            return logUserOutAfterDeletingCookie()
         }
 
         const newTodo = await prisma.todo.create({

@@ -9,7 +9,7 @@ export interface JWT_PAYLOAD extends JwtPayload {
 export interface Todo {
     id: number
     title: string
-    content: string
+    content: string | null
 }
 
 export interface ApiResponse {
