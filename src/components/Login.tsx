@@ -48,12 +48,11 @@ export default function LoginPage(){
             })
 
             const data = await res.json()
-            
+            console.log(data)
             if(data.success){
                 setMsg(data.message)
                
                 // Redirect to dashboard or todos page after 1.5 seconds
-
                 router.refresh()                                        
                 router.push("/dashboard")
 

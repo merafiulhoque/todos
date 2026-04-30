@@ -2,16 +2,17 @@ import { prisma } from "@/lib/prisma";
 import { createErrorResponse, createGeneralResponse } from "@/utils/createResponse";
 import { decryptToken } from "@/utils/jwt";
 import { logUserOutAfterDeletingCookie } from "@/utils/logUserOut";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import _ from "lodash"
 
 export async function GET(req: NextRequest){
     try {
         const token = req.cookies.get("token")?.value
+        
         if(!token){
             return logUserOutAfterDeletingCookie(req)
         }
-        const decryptData = decryptToken(token)
+        const decryptData = await decryptToken(token)
         if(!decryptData || !decryptData.email || !decryptData.id){
             return logUserOutAfterDeletingCookie(req)
         }
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest){
         }
         const token = req.cookies.get("token")?.value
         if(!token) return logUserOutAfterDeletingCookie(req)
-        const decryptData = decryptToken(token)
+        const decryptData = await decryptToken(token)
         if(!decryptData || !decryptData.email || !decryptData.id) return logUserOutAfterDeletingCookie(req)
         
         const userById = await prisma.user.findUnique({

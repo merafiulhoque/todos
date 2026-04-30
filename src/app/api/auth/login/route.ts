@@ -31,8 +31,8 @@ export async function POST(req: NextRequest) {
             name: userByEmail.name,
             email: userByEmail.email
         }
-        const token = generateToken(userData)
-        const response = createGeneralResponse(true, "Login Successfull", 200)
+        const token = await generateToken(userData)
+        const response = createGeneralResponse(true, "Login Successfull", 200, {})
         
         response.cookies.set("token", token, {
             httpOnly: true,

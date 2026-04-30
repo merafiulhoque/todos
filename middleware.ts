@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(req: NextRequest){
     try {
         const token = req.cookies.get("token")?.value
-
+        console.log(token)
         if(token && req.nextUrl.pathname === "/login"){
             return NextResponse.redirect(new URL("/dashboard", req.url));
         }
@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest){
         if(!token){
             return NextResponse.redirect(new URL("/login", req.url))
         }
-        const decrypt: JWT_PAYLOAD | null = decryptToken(token)
+        const decrypt: JWT_PAYLOAD | null = await decryptToken(token)
         if(!decrypt){
             return NextResponse.redirect(new URL("/login", req.url))
         }

@@ -1,26 +1,25 @@
-
 import { JWT_PAYLOAD } from "@/types"
-import jwt, { JwtPayload } from "jsonwebtoken"
-import { cookies } from "next/headers"
+import { SignJWT, jwtVerify } from "jose"
 
 const jwt_key = process.env.JWT_SECRET_KEY
 
-export function generateToken(data: JWT_PAYLOAD): string{
-    
-
-    if(!jwt_key) throw new Error("No jwt secret key found")
-
-    const token = jwt.sign(data, jwt_key, { expiresIn: "1h" })
+export async function generateToken(payload: JWT_PAYLOAD): Promise<string>{
+    const secret = new TextEncoder().encode(jwt_key)
+    const token = await new SignJWT(payload)
+                            .setProtectedHeader({alg: "HS256"})
+                            .setExpirationTime("1h")
+                            .sign(secret);
     return token
 }
 
 
-export function decryptToken(token: string): JWT_PAYLOAD | null{
-
-    if(!jwt_key) throw new Error("No jwt secret key found")
-    const decrypt: string | JwtPayload = jwt.verify(token, jwt_key)
-    if(typeof decrypt === "string"){
+export async function decryptToken(token: string): Promise<JWT_PAYLOAD | null>{
+    try {
+        const secret = new TextEncoder().encode(jwt_key)
+        const { payload } = await jwtVerify(token, secret)
+        return payload as JWT_PAYLOAD
+        
+    } catch (error) {
         return null
     }
-    return decrypt as JWT_PAYLOAD
 }
